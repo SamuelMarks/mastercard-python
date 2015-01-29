@@ -1,0 +1,3 @@
+requests==2.5.1
+oauthlib
+git+https://github.com/SamuelMarks/pyjks#egg=pyjks
