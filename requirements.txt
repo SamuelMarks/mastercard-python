@@ -1,3 +1,4 @@
 requests==2.5.1
 oauthlib
+requests_oauthlib
 git+https://github.com/SamuelMarks/pyjks#egg=pyjks
