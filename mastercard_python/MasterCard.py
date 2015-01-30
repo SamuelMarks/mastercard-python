@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
+
 from os import environ
+from lxml import etree
 
 from requests import get as http_get
 from requests_oauthlib import OAuth1
@@ -17,9 +20,11 @@ pp = PrettyPrinter(indent=4).pprint
 def master_card(auth):
     def request(service, item, _id):
         url = BASE_API_URI.format(service=service, item=item, id=_id)
-        print 'GET:', url
+        print('GET:', url)
         # if r.status_code == 200 and r.text == '<HTML>OK</HTML': <-- Checks if no error
-        return (lambda r: {'status_code': r.status_code, 'text': r.text})(http_get(url, auth=request.auth))
+        return (lambda r: {
+            'status_code': r.status_code, 'xml': etree.tostring(etree.fromstring(r.content), pretty_print=True)
+        })(http_get(url, auth=request.auth))
 
     request.auth = auth
 
@@ -37,4 +42,6 @@ if __name__ == '__main__':
         private_key = get_private_key_from_jks(jks=private_key, alias=alias, key_store_password='')
     mc_oauth = OAuth1(client_key=client_key, signature_method=SIGNATURE_RSA, rsa_key=private_key)
     mc = master_card(mc_oauth)
-    print pp(mc('restaurants', 'restaurant', 6155332))
+    (lambda res: ((lambda key: print({key: res[key]}, '\n', res['xml']))('status_code')))(
+        mc('restaurants', 'restaurant', 6155332)
+    )
