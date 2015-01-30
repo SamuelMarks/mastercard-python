@@ -18,8 +18,8 @@ def master_card(auth):
     def request(service, item, _id):
         url = BASE_API_URI.format(service=service, item=item, id=_id)
         print 'GET:', url
-        return (lambda r: r.text if r.status_code == 200 or r.text == '<HTML>OK</HTML>' else {
-            'status_code': r.status_code, 'text': r.text})(http_get(url, auth=request.auth))
+        # if r.status_code == 200 and r.text == '<HTML>OK</HTML': <-- Checks if no error
+        return (lambda r: {'status_code': r.status_code, 'text': r.text})(http_get(url, auth=request.auth))
 
     request.auth = auth
 
