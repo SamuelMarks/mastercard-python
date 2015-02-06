@@ -35,11 +35,11 @@ Additionally there is an optional variable:
 This `mc` object additionally supports an:
 
   - `id` field (usually a numeral after the first two nouns).
-  - query params (as a dictionary), these will replace any defaults
+  - query params (as a arguments, e.g.: `mc('', '', PageLength=50)`), these will replace any defaults
 
 Results of the `mc` object currently include:
 
-  -`status_code`, the HTTP response status code
+  - `status_code`, the HTTP response status code
   - `xml`, the resulting content
   - `url`, the URL the request was sent to
 

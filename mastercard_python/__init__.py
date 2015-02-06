@@ -2,7 +2,7 @@ from os import environ
 from urllib import urlencode
 
 __author__ = 'Samuel Marks'
-__version__ = '0.0.7'
+__version__ = '0.0.8'
 
 API_OR_SANDBOX = environ['MC_API_OR_SANDBOX']
 
