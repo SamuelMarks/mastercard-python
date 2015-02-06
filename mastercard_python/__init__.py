@@ -1,7 +1,7 @@
 from os import environ
 
 __author__ = 'Samuel Marks'
-__version__ = '0.0.5'
+__version__ = '0.0.6'
 
 API_OR_SANDBOX = environ['MC_API_OR_SANDBOX']
 
