@@ -2,35 +2,22 @@
 # Then changed a whole bunch :P
 
 import httplib
-import textwrap
 import urllib
 import urllib2
 import urlparse
-import base64
 from os import environ
 
 from oauthlib import oauth1
 
-get_pem = lambda data, _type: "-----BEGIN {_type}-----\n{data}\n-----END {_type}-----".format(
-    _type=_type, data="\r\n".join(textwrap.wrap(base64.b64encode(data), 64))
-)
-
-
-def get_private_key_from_jks(jks, alias, key_store_password):
-    from jks import KeyStore
-
-    key = next(_key for _key in KeyStore.load(jks, key_store_password).private_keys if _key.alias == alias)
-    # Get the certificate and chain from the key with: key.cert_chain
-    # Or all the certificates with: KeyStore.load(jks, key_store_password).certs
-    return get_pem(key.pkey, 'RSA PRIVATE KEY')
+from utils import get_private_key_from_jks
 
 
 def mc_api(client_key, private_key, certificate):
     def test_mc_api_with_auth(lat, lon, page_offset, page_length, service, item, _id):
         # PROD API ENDPOINT
-        from __init__ import BASE_API_URI
+        from __init__ import form_url
 
-        url = BASE_API_URI.format(service=service, item=item, id=_id)
+        url = form_url(service=service, item=item, id=_id)
 
         # SET THE REQUEST PARAMETERS
         params = {
